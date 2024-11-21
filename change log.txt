@@ -1,3 +1,4 @@
 create a new project with given pom.xml
 git init
 set up basic structure (controller, service, repo) + dummy code
+add swagger

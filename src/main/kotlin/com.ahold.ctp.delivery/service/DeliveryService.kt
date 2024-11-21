@@ -3,9 +3,9 @@ package com.ahold.ctp.delivery.service
 
 import com.ahold.ctp.delivery.dto.BulkUpdateDeliveryRequest
 import com.ahold.ctp.delivery.dto.UpdateDeliveryRequest
-import com.ahold.ctp.delivery.repository.DeliveryRepository
 import com.ahold.ctp.delivery.model.Delivery
 import com.ahold.ctp.delivery.model.DeliveryStatus
+import com.ahold.ctp.delivery.repository.DeliveryRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

@@ -5,6 +5,8 @@ import com.ahold.ctp.delivery.model.DeliveryStatus
 import java.time.LocalDateTime
 import java.util.*
 
+
+
 data class BulkUpdateResponse(
     val deliveries: List<DeliveryResponse>
 ) {
@@ -34,3 +36,8 @@ data class DeliveryResponse(
         }
     }
 }
+
+data class BusinessSummaryResponse(
+    val deliveries: Int,
+    val averageMinutesBetweenDeliveryStart: Int
+)

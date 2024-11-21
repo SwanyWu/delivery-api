@@ -13,3 +13,11 @@ spring:
       path: /h2-console
 server:
   port: 8080
+
+swagger:
+  api:
+    title: Delivery System
+    description: APIs for Delivery System
+    version: 1.0
+    contact:
+      name: Huiyao Wu
