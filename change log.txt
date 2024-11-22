@@ -12,3 +12,4 @@ pass on zone -> convert and store as local -> look up in local
 pass on zone -> store and look up in zone -> convert to local
 more write than read I suppose
 
+concurrency? duplicates?more tests
