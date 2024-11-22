@@ -2,3 +2,13 @@ create a new project with given pom.xml
 git init
 set up basic structure (controller, service, repo) + dummy code
 add swagger
+add logging and metric
+refactor error handling
+docker
+
+http://localhost:8080/swagger-ui/index.html
+
+pass on zone -> convert and store as local -> look up in local
+pass on zone -> store and look up in zone -> convert to local
+more write than read I suppose
+

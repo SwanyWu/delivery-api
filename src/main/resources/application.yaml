@@ -4,6 +4,7 @@ spring:
     driver-class-name: org.h2.Driver
     username: hwu
     password: password-hwu
+    schema: classpath:schema.sql
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,6 +14,14 @@ spring:
       path: /h2-console
 server:
   port: 8080
+
+
+logging:
+  level:
+    root: INFO
+    org.springframework: WARN
+    com.ahold.ctp.assignment: DEBUG
+
 
 swagger:
   api:
