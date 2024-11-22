@@ -1,5 +1,6 @@
 package com.ahold.ctp.assignment.controller
 
+import com.ahold.ctp.assignment.controller.exception.ControllerException
 import com.ahold.ctp.assignment.dto.*
 import com.ahold.ctp.assignment.model.Delivery
 import com.ahold.ctp.assignment.service.DeliveryService
@@ -27,13 +28,7 @@ class DeliveryController(private val service: DeliveryService) {
     @PostMapping
     fun createDelivery(@RequestBody createDeliveryRequest: CreateDeliveryRequest): DeliveryResponse {
         val delivery = service.createDelivery(Delivery.of(createDeliveryRequest))
-        return DeliveryResponse(
-            id = delivery.id,
-            vehicleId = delivery.vehicleId,
-            startedAt = delivery.startedAt,
-            finishedAt = delivery.finishedAt,
-            status = delivery.status
-        )
+        return DeliveryResponse.from(delivery)
     }
 
     @Operation(summary = "Update an existing delivery")
@@ -69,7 +64,7 @@ class DeliveryController(private val service: DeliveryService) {
     ])
     @PatchMapping("/bulk-update")
     fun bulkUpdateDeliveries(
-        @RequestBody requests: List<BulkUpdateDeliveryRequest>
+        @RequestBody requests: List<UpdateDeliveryRequest>
     ): BulkUpdateResponse {
         val updatedDeliveries = service.bulkUpdateDeliveries(requests)
         return BulkUpdateResponse.from(updatedDeliveries)

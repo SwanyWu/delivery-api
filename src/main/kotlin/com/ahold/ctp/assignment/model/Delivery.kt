@@ -2,7 +2,6 @@ package com.ahold.ctp.assignment.model
 
 import com.ahold.ctp.assignment.dto.CreateDeliveryRequest
 import jakarta.persistence.*
-import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.util.*
 

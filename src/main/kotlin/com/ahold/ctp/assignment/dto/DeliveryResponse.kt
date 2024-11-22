@@ -2,10 +2,8 @@ package com.ahold.ctp.assignment.dto
 
 import com.ahold.ctp.assignment.model.Delivery
 import com.ahold.ctp.assignment.model.DeliveryStatus
-import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.util.*
-
 
 
 data class BulkUpdateResponse(
@@ -18,6 +16,7 @@ data class BulkUpdateResponse(
     }
 }
 
+// can use a mapper but logic here is simple (from)
 data class DeliveryResponse(
     val id: UUID,
     val vehicleId: String,

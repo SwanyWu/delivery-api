@@ -1,4 +1,4 @@
-package com.ahold.ctp.assignment.dto
+package com.ahold.ctp.assignment.controller.exception
 
 import java.time.LocalDateTime
 

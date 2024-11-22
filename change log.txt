@@ -3,7 +3,7 @@ git init
 set up basic structure (controller, service, repo) + dummy code
 add swagger
 add logging and metric
-refactor error handling
+refactor exception handler to display message on swagger and reuse updateDeliverydto
 docker
 
 http://localhost:8080/swagger-ui/index.html
