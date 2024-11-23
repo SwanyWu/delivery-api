@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  deliveryapp:
+    container_name: deliveryapp
+    image: ahold/deliveryapp:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DB_URL: ${DB_URL}
+        H2_USER: ${H2_USER}
+        H2_PASSWORD: ${H2_PASSWORD}
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:h2:mem:ah_backend_assignment
+      H2_USER: hwu
+      H2_PASSWORD: password-hwu

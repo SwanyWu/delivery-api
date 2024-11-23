@@ -1,0 +1,32 @@
+change log
+- create a new project with given pom.xml
+- git init
+- set up basic structure (controller, service, repo) + dummy code
+- add swagger
+- add logging (metrics)
+- refactor exception handler to display message on swagger and reuse updateDeliverydto
+- tests
+- map invalid request to 400 and add redirect to swagger config
+- index not added on timestamps (more write than read I suppose)
+- add docker-compose
+
+(unspecified) functional requirements:
+- users can create a delivery with startedAt being in the past
+- when posting a DELIVERED delivery, response should contain finishedAt (= startedAt)
+- finishedAt >= startedAt
+- DELIVERED cannot be updated with DELIVERED
+- DELIVERED cannot be updated to IN_PROGRESS
+- !!!! invalid post dto map to 400
+
+nice-to-have
+- can use a service interface
+- can use a response mapper instead of companion object
+- concurrency, race condition
+- more tests incl. load test
+
+
+http://localhost:8080/swagger-ui/index.html
+
+
+
+

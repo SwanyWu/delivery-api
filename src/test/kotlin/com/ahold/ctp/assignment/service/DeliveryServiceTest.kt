@@ -1,5 +1,6 @@
 package com.ahold.ctp.assignment.service
 
+import com.ahold.ctp.assignment.dto.BulkUpdateDeliveryRequest
 import com.ahold.ctp.assignment.dto.UpdateDeliveryRequest
 import com.ahold.ctp.assignment.model.Delivery
 import com.ahold.ctp.assignment.model.DeliveryStatus
@@ -16,7 +17,6 @@ import org.mockito.Mockito.verify
 import java.time.ZonedDateTime
 import java.util.*
 import org.mockito.Mockito.*
-import java.time.LocalDate
 
 class DeliveryServiceTest {
     private lateinit var repository: DeliveryRepository
@@ -53,8 +53,7 @@ class DeliveryServiceTest {
     fun `updateDelivery should update an existing delivery`() {
         // given: a delivery store in the repo and an update request
         val updateRequest = UpdateDeliveryRequest(
-            id = delivery.id,
-            status = DeliveryStatus.DELIVERED,
+            status = "DELIVERED",
             finishedAt = ZonedDateTime.now()
         )
 
@@ -65,7 +64,7 @@ class DeliveryServiceTest {
         val result = service.updateDelivery(delivery.id, updateRequest)
 
         // then: it's updated
-        assertEquals(updateRequest.status, result.status)
+        assertEquals(updateRequest.status, result.status.name)
         assertEquals(updateRequest.finishedAt, result.finishedAt)
         verify(repository).findById(delivery.id)
         verify(repository).save(delivery)
@@ -76,8 +75,7 @@ class DeliveryServiceTest {
         // given: an update request for a non-existent delivery
         val deliveryId = UUID.randomUUID()
         val updateRequest = UpdateDeliveryRequest(
-            id = deliveryId,
-            status = DeliveryStatus.DELIVERED,
+            status = "DELIVERED",
             finishedAt = ZonedDateTime.now()
         )
 
@@ -97,12 +95,16 @@ class DeliveryServiceTest {
         val delivery2 = delivery.copy(id = UUID.randomUUID())
 
         val requests = listOf(
-            UpdateDeliveryRequest(
+            BulkUpdateDeliveryRequest(
                 id = delivery.id,
-                status = DeliveryStatus.DELIVERED,
+                status = "DELIVERED",
                 finishedAt = ZonedDateTime.now()
             ),
-            UpdateDeliveryRequest(id = delivery2.id, status = DeliveryStatus.IN_PROGRESS, finishedAt = null)
+            BulkUpdateDeliveryRequest(
+                id = delivery2.id,
+                status = "IN_PROGRESS",
+                finishedAt = null
+            )
         )
 
         `when`(repository.findById(delivery.id)).thenReturn(Optional.of(delivery))
@@ -122,7 +124,7 @@ class DeliveryServiceTest {
     @Test
     fun `getBusinessSummary should return total deliveries and average minutes`() {
         // given: two deliveries from yesterday with 120 min interval
-        val yesterday = LocalDate.now(defaultZone()).minusDays(1)
+        val yesterday = ZonedDateTime.now(defaultZone()).minusDays(1)
         val delivery1 = Delivery(
             id = UUID.randomUUID(),
             vehicleId = "vid-1",
@@ -156,7 +158,7 @@ class DeliveryServiceTest {
     @Test
     fun `getBusinessSummary should return zero average for single delivery`() {
         // given: create a single delivery with a started time
-        val yesterday = LocalDate.now(defaultZone()).minusDays(1)
+        val yesterday = ZonedDateTime.now(defaultZone()).minusDays(1)
         `when`(
             repository.findAllByStartedAtBetween(
                 yesterday.startOfDay(),

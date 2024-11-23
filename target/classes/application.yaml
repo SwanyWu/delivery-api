@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:deliverydb
+    url: ${DB_URL:jdbc:h2:mem:deliverydb}
     driver-class-name: org.h2.Driver
-    username: hwu
-    password: password-hwu
+    username: ${H2_USER:sa}
+    password: ${H2_PASSWORD:sa}
     schema: classpath:schema.sql
   jpa:
     hibernate:
