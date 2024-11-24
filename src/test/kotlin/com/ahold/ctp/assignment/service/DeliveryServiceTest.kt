@@ -5,18 +5,16 @@ import com.ahold.ctp.assignment.dto.UpdateDeliveryRequest
 import com.ahold.ctp.assignment.model.Delivery
 import com.ahold.ctp.assignment.model.DeliveryStatus
 import com.ahold.ctp.assignment.repository.DeliveryRepository
-import com.ahold.ctp.assignment.util.defaultZone
 import com.ahold.ctp.assignment.util.endOfDay
 import com.ahold.ctp.assignment.util.startOfDay
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.verify
-import java.time.ZonedDateTime
-import java.util.*
 import org.mockito.Mockito.*
+import java.time.OffsetDateTime
+import java.util.*
 
 class DeliveryServiceTest {
     private lateinit var repository: DeliveryRepository
@@ -25,7 +23,7 @@ class DeliveryServiceTest {
     private val delivery = Delivery(
         id = UUID.randomUUID(),
         vehicleId = "vid-xyz",
-        startedAt = ZonedDateTime.now(),
+        startedAt = OffsetDateTime.now(),
         finishedAt = null,
         status = DeliveryStatus.IN_PROGRESS
     )
@@ -54,7 +52,7 @@ class DeliveryServiceTest {
         // given: a delivery store in the repo and an update request
         val updateRequest = UpdateDeliveryRequest(
             status = "DELIVERED",
-            finishedAt = ZonedDateTime.now()
+            finishedAt = OffsetDateTime.now()
         )
 
         `when`(repository.findById(delivery.id)).thenReturn(Optional.of(delivery))
@@ -76,7 +74,7 @@ class DeliveryServiceTest {
         val deliveryId = UUID.randomUUID()
         val updateRequest = UpdateDeliveryRequest(
             status = "DELIVERED",
-            finishedAt = ZonedDateTime.now()
+            finishedAt = OffsetDateTime.now()
         )
 
         `when`(repository.findById(deliveryId)).thenReturn(Optional.empty())
@@ -98,7 +96,7 @@ class DeliveryServiceTest {
             BulkUpdateDeliveryRequest(
                 id = delivery.id,
                 status = "DELIVERED",
-                finishedAt = ZonedDateTime.now()
+                finishedAt = OffsetDateTime.now()
             ),
             BulkUpdateDeliveryRequest(
                 id = delivery2.id,
@@ -124,7 +122,7 @@ class DeliveryServiceTest {
     @Test
     fun `getBusinessSummary should return total deliveries and average minutes`() {
         // given: two deliveries from yesterday with 120 min interval
-        val yesterday = ZonedDateTime.now(defaultZone()).minusDays(1)
+        val yesterday = OffsetDateTime.now().minusDays(1)
         val delivery1 = Delivery(
             id = UUID.randomUUID(),
             vehicleId = "vid-1",
@@ -158,7 +156,7 @@ class DeliveryServiceTest {
     @Test
     fun `getBusinessSummary should return zero average for single delivery`() {
         // given: create a single delivery with a started time
-        val yesterday = ZonedDateTime.now(defaultZone()).minusDays(1)
+        val yesterday = OffsetDateTime.now().minusDays(1)
         `when`(
             repository.findAllByStartedAtBetween(
                 yesterday.startOfDay(),

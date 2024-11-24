@@ -7,6 +7,8 @@ change log
 - refactor exception handler to display message on swagger and reuse updateDeliverydto
 - tests
 - map invalid request to 400 and add redirect to swagger config
+- refine zonedDateTime deserialization
+- build and create docker compose
 - index not added on timestamps (more write than read I suppose)
 - add docker-compose
 
@@ -23,6 +25,7 @@ nice-to-have
 - can use a response mapper instead of companion object
 - concurrency, race condition
 - more tests incl. load test
+- admin endpoint to get all deliveries
 
 
 http://localhost:8080/swagger-ui/index.html

@@ -1,25 +1,22 @@
 package com.ahold.ctp.assignment.dto
 
-import com.ahold.ctp.assignment.model.DeliveryStatus
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.Test
-import java.time.ZonedDateTime
-import java.util.*
+import org.junit.jupiter.api.assertThrows
+import java.time.OffsetDateTime
 
 class UpdateDeliveryRequestTest{
     @Test
     fun `should throw IllegalArgumentException for invalid status`() {
         assertThrows<IllegalArgumentException> {
             UpdateDeliveryRequest(
-                finishedAt = ZonedDateTime.now(),
+                finishedAt = OffsetDateTime.now(),
                 status = "INVALID_STATUS"
             )
         }
 
         assertThrows<IllegalArgumentException> {
             UpdateDeliveryRequest(
-                finishedAt = ZonedDateTime.now(),
+                finishedAt = OffsetDateTime.now(),
                 status = ""
             )
         }
@@ -33,7 +30,7 @@ class UpdateDeliveryRequestTest{
 
         assertThrows<IllegalArgumentException> {
             UpdateDeliveryRequest(
-                finishedAt = ZonedDateTime.now(),
+                finishedAt = OffsetDateTime.now(),
                 status = "IN_PROGRESS"
             )
         }

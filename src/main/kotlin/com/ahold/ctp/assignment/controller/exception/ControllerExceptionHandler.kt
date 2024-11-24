@@ -2,7 +2,6 @@ package com.ahold.ctp.assignment.controller.exception
 
 import com.ahold.ctp.assignment.service.DeliveryNotFoundException
 import com.ahold.ctp.assignment.util.logger
-import com.fasterxml.jackson.databind.JsonMappingException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -36,6 +35,7 @@ class ControllerExceptionHandler {
     fun handleMethodArgumentNotValidException(
         ex: MethodArgumentNotValidException
     ): ResponseEntity<ControllerException> {
+        log.debug("Caught MethodArgumentNotValidException: $ex")
         val errors = ex.bindingResult.fieldErrors.joinToString(", ") { fieldError: FieldError ->
             "${fieldError.field}: ${fieldError.defaultMessage}"
         }
@@ -50,11 +50,17 @@ class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error)
     }
 
-    // init block in UpdateDeliveryRequest
+    // init block in (Update)DeliveryRequest
     @ExceptionHandler(HttpMessageNotReadableException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handleJsonMappingException(ex: HttpMessageNotReadableException): ResponseEntity<ControllerException> {
-        val rootCauseMessage = ex.cause?.cause?.message ?: "Invalid input"
+        log.debug("Caught HttpMessageNotReadableException: $ex")
+        val cause = ex.cause?.message ?: "Invalid request body"
+        val rootCauseMessage = if (cause.contains("OffsetDateTime")) {
+            "Invalid date format. Please provide it in UTC of format: YYYY-MM-DD'T'HH:mm:ss.SSSZ"
+        } else {
+            ex.cause?.cause?.message
+        }
         val error = ControllerException(
             message = rootCauseMessage,
             status = HttpStatus.BAD_REQUEST.value(),
@@ -78,7 +84,7 @@ class ControllerExceptionHandler {
 
     @ExceptionHandler(RuntimeException::class)
     fun handleRuntimeException(ex: RuntimeException): ResponseEntity<ControllerException> {
-        log.debug("Caught RuntimeException: ${ex}")
+        log.debug("Caught RuntimeException: $ex")
         val error = ControllerException(
             message = ex.message,
             status = HttpStatus.INTERNAL_SERVER_ERROR.value(),

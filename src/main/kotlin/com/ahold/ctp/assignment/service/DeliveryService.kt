@@ -6,13 +6,12 @@ import com.ahold.ctp.assignment.dto.UpdateDeliveryRequest
 import com.ahold.ctp.assignment.model.Delivery
 import com.ahold.ctp.assignment.model.DeliveryStatus
 import com.ahold.ctp.assignment.repository.DeliveryRepository
-import com.ahold.ctp.assignment.util.defaultZone
 import com.ahold.ctp.assignment.util.endOfDay
 import com.ahold.ctp.assignment.util.logger
 import com.ahold.ctp.assignment.util.startOfDay
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.ZonedDateTime
+import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
 import java.util.*
 
@@ -81,7 +80,7 @@ class DeliveryService(
     }
 
     fun getBusinessSummary(): Pair<Int, Int> {
-        val yesterday = ZonedDateTime.now(defaultZone()).minusDays(1)
+        val yesterday = OffsetDateTime.now().minusDays(1)
 
         log.debug("Retrieving business summary for $yesterday")
 
@@ -101,12 +100,16 @@ class DeliveryService(
 
     private fun compareUpdateAndExistingDelivery(
         updateStatus: DeliveryStatus,
-        updateFinishedAt: ZonedDateTime?,
+        updateFinishedAt: OffsetDateTime?,
         existingDelivery: Delivery
     ) {
         if (existingDelivery.status == DeliveryStatus.DELIVERED) {
             throw IllegalArgumentException("delivery with id ${existingDelivery.id} is already DELIVERED, can't be updated")
         }
+
+//        if (existingDelivery.status == DeliveryStatus.IN_PROGRESS) {
+//            throw IllegalArgumentException("delivery with id ${existingDelivery.id} is already IN_PROGRESS, can't be updated")
+//        }
 
         if (updateStatus == DeliveryStatus.DELIVERED && updateFinishedAt!! < existingDelivery.startedAt
         ) {

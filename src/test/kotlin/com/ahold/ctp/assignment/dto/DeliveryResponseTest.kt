@@ -2,9 +2,9 @@ package com.ahold.ctp.assignment.dto
 
 import com.ahold.ctp.assignment.model.Delivery
 import com.ahold.ctp.assignment.model.DeliveryStatus
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import java.time.ZonedDateTime
+import java.time.OffsetDateTime
 import java.util.*
 
 class DeliveryResponseTest {
@@ -13,8 +13,8 @@ class DeliveryResponseTest {
         // given: a Delivery
         val id = UUID.randomUUID()
         val vehicleId = "vid-123"
-        val startedAt = ZonedDateTime.parse("2024-11-22T10:15:30+01:00[Europe/Amsterdam]")
-        val finishedAt = ZonedDateTime.parse("2024-11-22T12:45:30+01:00[Europe/Amsterdam]")
+        val startedAt = OffsetDateTime.parse("2024-11-22T07:14:11.990Z")
+        val finishedAt = OffsetDateTime.parse("2024-11-24T07:14:11.990Z")
         val status = DeliveryStatus.IN_PROGRESS
 
         val delivery = Delivery(
