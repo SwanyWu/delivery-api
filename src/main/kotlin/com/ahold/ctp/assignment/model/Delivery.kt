@@ -22,26 +22,24 @@ data class Delivery(
     constructor() : this(UUID.randomUUID(), "default-vid", OffsetDateTime.now(), null, DeliveryStatus.IN_PROGRESS)
 
     companion object {
-        fun of(request: CreateDeliveryRequest): Delivery {
+        fun of(request: CreateDeliveryRequest) = Delivery(
+            id = UUID.randomUUID(),
+            vehicleId = request.vehicleId!!,
+            startedAt = request.startedAt!!,
+            // auto-complete finishedAt for a delivery with status DELIVERED
+            finishedAt = if (request.status == "DELIVERED") request.startedAt else null,
+            status = DeliveryStatus.valueOf(request.status!!)
+        )
 
-            require(request.status != null && request.status in listOf("DELIVERED", "IN_PROGRESS")) {
-                "invalid request: status must be either IN_PROGRESS or DELIVERED"
-            }
-
-            return Delivery(
-                id = UUID.randomUUID(),
-                vehicleId = request.vehicleId!!,
-                startedAt = request.startedAt!!,
-                // auto-complete finishedAt for a delivery with status DELIVERED
-                finishedAt = if (request.status == "DELIVERED") request.startedAt else null,
-                status = DeliveryStatus.valueOf(request.status)
-            )
-        }
     }
 }
 
 
 enum class DeliveryStatus {
-    IN_PROGRESS, DELIVERED
+    IN_PROGRESS, DELIVERED;
+
+    companion object {
+        fun asList(): List<String> = values().map { it.name }
+    }
 }
 

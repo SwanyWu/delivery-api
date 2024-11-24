@@ -57,7 +57,7 @@ class ControllerExceptionHandler {
         log.debug("Caught HttpMessageNotReadableException: $ex")
         val cause = ex.cause?.message ?: "Invalid request body"
         val rootCauseMessage = if (cause.contains("OffsetDateTime")) {
-            "Invalid date format. Please provide it in UTC of format: YYYY-MM-DD'T'HH:mm:ss.SSSZ"
+            "Please provide a date in UTC of format: YYYY-MM-DD'T'HH:mm:ss.SSSZ"
         } else {
             ex.cause?.cause?.message
         }

@@ -101,7 +101,7 @@ class DeliveryServiceTest {
             BulkUpdateDeliveryRequest(
                 id = delivery2.id,
                 status = "IN_PROGRESS",
-                finishedAt = null
+                finishedAt = OffsetDateTime.now()
             )
         )
 

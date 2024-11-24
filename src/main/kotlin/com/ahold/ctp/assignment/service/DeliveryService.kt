@@ -107,13 +107,8 @@ class DeliveryService(
             throw IllegalArgumentException("delivery with id ${existingDelivery.id} is already DELIVERED, can't be updated")
         }
 
-//        if (existingDelivery.status == DeliveryStatus.IN_PROGRESS) {
-//            throw IllegalArgumentException("delivery with id ${existingDelivery.id} is already IN_PROGRESS, can't be updated")
-//        }
-
-        if (updateStatus == DeliveryStatus.DELIVERED && updateFinishedAt!! < existingDelivery.startedAt
-        ) {
-            throw IllegalArgumentException("DELIVERED update must have a larger finishedAt than startedAt of the existing IN_PROGRESS delivery")
+        if (updateFinishedAt!! < existingDelivery.startedAt) {
+            throw IllegalArgumentException("delivery with id ${existingDelivery.id} is started at ${existingDelivery.startedAt}, can't be finished earlier")
         }
 
     }

@@ -7,7 +7,7 @@ change log
 - refactor exception handler to display message on swagger and reuse updateDeliverydto
 - tests
 - map invalid request to 400 and add redirect to swagger config
-- refine zonedDateTime deserialization
+- refine request DateTime deserialization
 - build and create docker compose
 - index not added on timestamps (more write than read I suppose)
 - add docker-compose

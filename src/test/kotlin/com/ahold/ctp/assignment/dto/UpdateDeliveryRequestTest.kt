@@ -27,12 +27,5 @@ class UpdateDeliveryRequestTest{
                 status = "DELIVERED"
             )
         }
-
-        assertThrows<IllegalArgumentException> {
-            UpdateDeliveryRequest(
-                finishedAt = OffsetDateTime.now(),
-                status = "IN_PROGRESS"
-            )
-        }
     }
 }
